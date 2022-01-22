@@ -37,8 +37,19 @@ namespace ReadLater5
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ReadLaterDataContext>();
 
+
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.Configure<EmailSenderOptions>(Configuration.GetSection("EmailConfiguration"));
+
+            //services.Configure<EmailConfiguration>(Configuration.GetSection("MailSettings"));
+
+            //var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+            //services.AddSingleton(emailConfig);
+            ////services.AddScoped<EmailService.IEmailSender, EmailService.EmailSender>();
+            //services.AddTransient<EmailService.IEmailSender, EmailService.EmailSender>();
+            //services.Configure<EmailConfiguration>(Configuration.GetSection("EmailConfiguration"));
+            ////services.AddTransient<IEmailSender, EmailSender>();
+            ////services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddScoped<ICategoryService, CategoryService>();
 
