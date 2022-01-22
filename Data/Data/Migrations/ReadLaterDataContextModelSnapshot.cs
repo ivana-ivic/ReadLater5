@@ -19,7 +19,7 @@ namespace Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Entity.Bookmark", b =>
+            modelBuilder.Entity("Entity.Bookmarks", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Bookmark");
+                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("Entity.Category", b =>
@@ -262,7 +262,7 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Entity.Bookmark", b =>
+            modelBuilder.Entity("Entity.Bookmarks", b =>
                 {
                     b.HasOne("Entity.Category", "Category")
                         .WithMany()

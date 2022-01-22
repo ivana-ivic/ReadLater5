@@ -166,7 +166,7 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookmark",
+                name: "Bookmarks",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -178,9 +178,9 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookmark", x => x.ID);
+                    table.PrimaryKey("PK_Bookmarks", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Bookmark_Categories_CategoryId",
+                        name: "FK_Bookmarks_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "ID",
@@ -227,8 +227,8 @@ namespace Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookmark_CategoryId",
-                table: "Bookmark",
+                name: "IX_Bookmarks_CategoryId",
+                table: "Bookmarks",
                 column: "CategoryId");
         }
 
@@ -250,7 +250,7 @@ namespace Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Bookmark");
+                name: "Bookmarks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
