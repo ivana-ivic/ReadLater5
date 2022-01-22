@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Entity;
 using Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ReadLater5.Controllers
 {
+    [Authorize]
     public class BookmarksController : Controller
     {
-        //private readonly ReadLaterDataContext _context;
         IBookmarkService _bookmarkService;
         ICategoryService _categoryService;
 
