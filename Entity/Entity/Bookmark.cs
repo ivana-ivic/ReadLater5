@@ -13,7 +13,7 @@ namespace Entity
         [Key]
         public int ID { get; set; }
 
-        [StringLength(maximumLength: 5)]
+        [StringLength(maximumLength: 500)]
         public string URL { get; set; }
 
         public string ShortDescription { get; set; }
