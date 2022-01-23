@@ -24,6 +24,7 @@ namespace Entity
 
         public DateTime CreateDate { get; set; }
 
+        [Required]
         public string AspNetUserId { get; set; }
     }
 }

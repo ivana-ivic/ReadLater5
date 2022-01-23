@@ -15,6 +15,7 @@ namespace Entity
         [StringLength(maximumLength: 50)]
         public string Name { get; set; }
 
+        [Required]
         public string AspNetUserId { get; set; }
     }
 }

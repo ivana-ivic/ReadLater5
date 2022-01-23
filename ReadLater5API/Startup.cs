@@ -2,23 +2,17 @@ using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ReadLater5API.Configuration;
+using ReadLater5API.Helpers;
 using Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ReadLater5API
 {
@@ -55,7 +49,7 @@ namespace ReadLater5API
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true,
-                    RequireExpirationTime = false
+                    RequireExpirationTime = false //production -> true 
                 };
             });
 
@@ -65,6 +59,8 @@ namespace ReadLater5API
             services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<IBookmarkService, BookmarkService>();
+
+            services.AddScoped<IJwtHelper, JwtHelper>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
