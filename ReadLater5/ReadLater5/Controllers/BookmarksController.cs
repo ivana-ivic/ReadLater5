@@ -143,5 +143,15 @@ namespace ReadLater5.Controllers
             _bookmarkService.DeleteBookmark(bookmark);
             return RedirectToAction(nameof(Index));
         }
+
+        //[ChildActionOnly]
+        [HttpGet, ActionName("AddNewCategoryPartial")]
+        public ActionResult AddNewCategoryPartial(string categoryName, string userId)
+        {
+            _categoryService.CreateCategory(new Category() { Name = categoryName, AspNetUserId = userId });
+            ViewData["AspNetUserId"] = userId;
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(_userManager.GetUserId(User)), "ID", "Name");
+            return PartialView("_SelectCategoryPartial");
+        }
     }
 }

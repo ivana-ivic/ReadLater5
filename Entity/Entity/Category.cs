@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Entity
@@ -17,5 +18,8 @@ namespace Entity
 
         [Required]
         public string AspNetUserId { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Bookmark> Bookmarks { get; set; }
     }
 }

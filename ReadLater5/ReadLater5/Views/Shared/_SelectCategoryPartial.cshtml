@@ -1,0 +1,63 @@
+﻿@model Entity.Bookmark
+<div class="form-group">
+    <label asp-for="CategoryId" class="control-label">Category</label>
+    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+</div>
+<div class="pt-2 pb-3">
+    <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Add new category
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label for="categoryName" class="control-label">Category name</label>
+                        <input class="form-control" type="text" id="categoryName" />
+                    </div>
+                    @if(ViewBag.AspNetUserId != null)
+                    {
+                    <input type="hidden" id="aspNetUserId" value="@ViewBag.AspNetUserId" />
+                    }
+                    else
+                    {
+                    <input type="hidden" id="aspNetUserId" asp-for="AspNetUserId" />
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="button" class="btn btn-warning" onclick="addNewCategory()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addNewCategory() {
+        if ($('#categoryName').val() != '') {
+            $.ajax(
+                {
+                    url: '@Url.Action("AddNewCategoryPartial")',
+                    type: 'GET',
+                    datatype: "html",
+                    data: {
+                        categoryName: $('#categoryName').val(),
+                        userId: $('#aspNetUserId').val()
+                    },
+
+                    success: function (partialView) {
+                        $('#categoriesPartial').empty();
+                        $('#categoriesPartial').html(partialView);
+                        alert("New category created!")
+                    },
+                    error: function (arg, data, value) {
+                        alert("Error creating new category!")
+                    }
+                });
+        }
+    }
+</script>
