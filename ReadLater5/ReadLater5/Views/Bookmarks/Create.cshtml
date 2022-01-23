@@ -24,8 +24,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
+            <input type="hidden" asp-for="CreateDate" value="@DateTime.Now" />
+            <input type="hidden" asp-for="AspNetUserId" value="@ViewBag.AspNetUserId" />
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

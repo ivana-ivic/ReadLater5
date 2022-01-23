@@ -20,7 +20,6 @@ namespace Services
 
         public Bookmark CreateBookmark(Bookmark bookmark)
         {
-            bookmark.CreateDate = DateTime.Now;
             _readLaterDataContext.Bookmarks.Add(bookmark);
             _readLaterDataContext.SaveChanges();
             return bookmark;
@@ -32,24 +31,24 @@ namespace Services
             _readLaterDataContext.SaveChanges();
         }
 
-        public Bookmark GetBookmark(int? id)
+        public Bookmark GetBookmark(int? id, string userId)
         {
-            return _readLaterDataContext.Bookmarks.Where(b => b.ID == id).Include(b => b.Category).FirstOrDefault();
+            return _readLaterDataContext.Bookmarks.Where(b => b.ID == id && b.AspNetUserId == userId).Include(b => b.Category).FirstOrDefault();
         }
 
-        public List<Bookmark> GetBookmarks()
+        public List<Bookmark> GetBookmarks(string userId)
         {
-            return _readLaterDataContext.Bookmarks.Include(b => b.Category).ToList();
+            return _readLaterDataContext.Bookmarks.Where(b => b.AspNetUserId == userId).Include(b => b.Category).ToList();
         }
 
-        public List<Bookmark> GetBookmarks(DateTime fromDate, DateTime toDate)
+        public List<Bookmark> GetBookmarks(DateTime fromDate, DateTime toDate, string userId)
         {
-            return _readLaterDataContext.Bookmarks.Where(b => b.CreateDate.Date >= fromDate && b.CreateDate.Date <= toDate).Include(b => b.Category).ToList();
+            return _readLaterDataContext.Bookmarks.Where(b => b.CreateDate.Date >= fromDate && b.CreateDate.Date <= toDate && b.AspNetUserId == userId).Include(b => b.Category).ToList();
         }
 
-        public List<Bookmark> GetBookmarks(int categoryId)
+        public List<Bookmark> GetBookmarks(int categoryId, string userId)
         {
-            return _readLaterDataContext.Bookmarks.Where(b => b.CategoryId == categoryId).Include(b => b.Category).ToList();
+            return _readLaterDataContext.Bookmarks.Where(b => b.CategoryId == categoryId && b.AspNetUserId == userId).Include(b => b.Category).ToList();
         }
 
         public void UpdateBookmark(Bookmark bookmark)

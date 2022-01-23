@@ -9,6 +9,7 @@ using Data;
 using Entity;
 using Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ReadLater5.Controllers
 {
@@ -17,17 +18,19 @@ namespace ReadLater5.Controllers
     {
         IBookmarkService _bookmarkService;
         ICategoryService _categoryService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public BookmarksController(IBookmarkService bookmarkService, ICategoryService categoryService)
+        public BookmarksController(IBookmarkService bookmarkService, ICategoryService categoryService, UserManager<IdentityUser> userManager)
         {
             _bookmarkService = bookmarkService;
             _categoryService = categoryService;
+            _userManager = userManager;
         }
 
         // GET: Bookmarks
         public IActionResult Index()
         {
-            List<Bookmark> bookmarks = _bookmarkService.GetBookmarks();
+            List<Bookmark> bookmarks = _bookmarkService.GetBookmarks(_userManager.GetUserId(User));
             return View(bookmarks);
         }
 
@@ -39,7 +42,7 @@ namespace ReadLater5.Controllers
                 return NotFound();
             }
 
-            Bookmark bookmark = _bookmarkService.GetBookmark(id);
+            Bookmark bookmark = _bookmarkService.GetBookmark(id, _userManager.GetUserId(User));
             if (bookmark == null)
             {
                 return NotFound();
@@ -51,7 +54,8 @@ namespace ReadLater5.Controllers
         // GET: Bookmarks/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(), "ID", "Name");
+            ViewData["AspNetUserId"] = _userManager.GetUserId(User);
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(_userManager.GetUserId(User)), "ID", "Name");
             return View();
         }
 
@@ -60,14 +64,16 @@ namespace ReadLater5.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ID,URL,ShortDescription,CategoryId")] Bookmark bookmark)
+        public IActionResult Create(Bookmark bookmark)
         {
             if (ModelState.IsValid)
             {
                 _bookmarkService.CreateBookmark(bookmark);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(), "ID", "Name", bookmark.CategoryId);
+
+            ViewData["AspNetUserId"] = _userManager.GetUserId(User);
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(_userManager.GetUserId(User)), "ID", "Name", bookmark.CategoryId);
             return View(bookmark);
         }
 
@@ -79,13 +85,14 @@ namespace ReadLater5.Controllers
                 return NotFound();
             }
 
-            Bookmark bookmark = _bookmarkService.GetBookmark(id);
+            Bookmark bookmark = _bookmarkService.GetBookmark(id, _userManager.GetUserId(User));
 
             if (bookmark == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(), "ID", "Name", bookmark.CategoryId);
+
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(_userManager.GetUserId(User)), "ID", "Name", bookmark.CategoryId);
             return View(bookmark);
         }
 
@@ -94,7 +101,7 @@ namespace ReadLater5.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("ID,URL,ShortDescription,CategoryId,CreateDate")] Bookmark bookmark)
+        public IActionResult Edit(int id, Bookmark bookmark)
         {
             if (id != bookmark.ID)
             {
@@ -107,7 +114,8 @@ namespace ReadLater5.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(), "ID", "Name", bookmark.CategoryId);
+
+            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(_userManager.GetUserId(User)), "ID", "Name", bookmark.CategoryId);
             return View(bookmark);
         }
 
@@ -119,7 +127,7 @@ namespace ReadLater5.Controllers
                 return NotFound();
             }
 
-            Bookmark bookmark = _bookmarkService.GetBookmark(id);
+            Bookmark bookmark = _bookmarkService.GetBookmark(id, _userManager.GetUserId(User));
             if (bookmark == null)
             {
                 return NotFound();
@@ -133,7 +141,7 @@ namespace ReadLater5.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Bookmark bookmark = _bookmarkService.GetBookmark(id);
+            Bookmark bookmark = _bookmarkService.GetBookmark(id, _userManager.GetUserId(User));
             if (bookmark == null)
                 return NotFound();
 

@@ -25,14 +25,16 @@ namespace ReadLater5API.Controllers
         [HttpGet]
         public IEnumerable<Bookmark> Get()
         {
-            return _bookmarkService.GetBookmarks();
+            //return _bookmarkService.GetBookmarks();
+            return null;
         }
 
         // GET api/<BookmarksController>/5
         [HttpGet("{id}")]
         public Bookmark Get(int id)
         {
-            return _bookmarkService.GetBookmark(id);
+            //return _bookmarkService.GetBookmark(id);
+            return null;
         }
 
         // POST api/<BookmarksController>
@@ -44,7 +46,7 @@ namespace ReadLater5API.Controllers
 
         // PUT api/<BookmarksController>/5
         [HttpPut("{id}")]
-        public void Put(/*int id, */Bookmark bookmark)
+        public void Put(int id, Bookmark bookmark)
         {
             _bookmarkService.UpdateBookmark(bookmark);
         }
@@ -53,7 +55,8 @@ namespace ReadLater5API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Bookmark bookmark = _bookmarkService.GetBookmark(id);
+            //Bookmark bookmark = _bookmarkService.GetBookmark(id);
+            Bookmark bookmark = null;
             if (bookmark != null)
                 _bookmarkService.DeleteBookmark(bookmark);
         }

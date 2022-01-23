@@ -23,5 +23,7 @@ namespace Entity
         public virtual Category Category { get; set; }
 
         public DateTime CreateDate { get; set; }
+
+        public string AspNetUserId { get; set; }
     }
 }

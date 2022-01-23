@@ -10,9 +10,9 @@ namespace Services
     public interface ICategoryService
     {
         Category CreateCategory(Category category);
-        List<Category> GetCategories();
-        Category GetCategory(int Id);
-        Category GetCategory(string Name);
+        List<Category> GetCategories(string userId);
+        Category GetCategory(int Id, string userId);
+        Category GetCategory(string Name, string userId);
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
     }

@@ -29,19 +29,19 @@ namespace Services
             _ReadLaterDataContext.SaveChanges();
         }
 
-        public List<Category> GetCategories()
+        public List<Category> GetCategories(string userId)
         {
-            return _ReadLaterDataContext.Categories.ToList();
+            return _ReadLaterDataContext.Categories.Where(c => c.AspNetUserId == userId).ToList();
         }
 
-        public Category GetCategory(int Id)
+        public Category GetCategory(int Id, string userId)
         {
-            return _ReadLaterDataContext.Categories.Where(c => c.ID == Id).FirstOrDefault();
+            return _ReadLaterDataContext.Categories.Where(c => c.ID == Id && c.AspNetUserId == userId).FirstOrDefault();
         }
 
-        public Category GetCategory(string Name)
+        public Category GetCategory(string Name, string userId)
         {
-            return _ReadLaterDataContext.Categories.Where(c => c.Name == Name).FirstOrDefault();
+            return _ReadLaterDataContext.Categories.Where(c => c.Name == Name && c.AspNetUserId == userId).FirstOrDefault();
         }
 
         public void DeleteCategory(Category category)
