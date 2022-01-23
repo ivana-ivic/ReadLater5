@@ -52,7 +52,10 @@ namespace ReadLater5API.Controllers
         {
             string userId = _jwtHelper.GetUserIdFromToken(HttpContext.Request.Headers["Authorization"]);
             if(ModelState.IsValid && bookmark.AspNetUserId == userId)
-                _bookmarkService.CreateBookmark(bookmark);
+            {
+                if(_categoryService.GetCategory((int)bookmark.CategoryId, userId) != null)
+                    _bookmarkService.CreateBookmark(bookmark);
+            }
         }
 
         // PUT api/<BookmarksController>/5
@@ -61,7 +64,10 @@ namespace ReadLater5API.Controllers
         {
             string userId = _jwtHelper.GetUserIdFromToken(HttpContext.Request.Headers["Authorization"]);
             if(ModelState.IsValid && bookmark.AspNetUserId == userId)
-                _bookmarkService.UpdateBookmark(bookmark);
+            {
+                if (_categoryService.GetCategory((int)bookmark.CategoryId, userId) != null)
+                    _bookmarkService.UpdateBookmark(bookmark);
+            }
         }
 
         // DELETE api/<BookmarksController>/5
